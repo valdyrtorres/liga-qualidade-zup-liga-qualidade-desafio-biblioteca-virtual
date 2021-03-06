@@ -9,6 +9,7 @@ public class DadosEmprestimo {
 	//vai ser usado para posterior consulta em cima da solução
 	public final int idPedido;
 	public final int tempo;
+	// CDD 1 ponto
 	public final TipoExemplar tipoExemplar;
 
 	public DadosEmprestimo(int idLivro, int idUsuario,int tempo,TipoExemplar tipoExemplar, int idPedido) {
@@ -20,3 +21,5 @@ public class DadosEmprestimo {
 	}
 
 }
+
+// Classe OK - CDD - 1 ponto

@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+// CDD - Contagem da métrica
+
 public class Solucao {
 
 	/**
@@ -32,18 +34,20 @@ public class Solucao {
 	 * @param dataExpiracao aqui é a data que deve ser utilizada para verificar expiração
 	 * @return
 	 */
-	public static Set<EmprestimoConcedido> executa(Set<DadosLivro> livros,
-			Set<DadosExemplar> exemplares,
-			Set<DadosUsuario> usuarios, Set<DadosEmprestimo> emprestimos,
-			Set<DadosDevolucao> devolucoes, LocalDate dataExpiracao) {
+	public static Set<EmprestimoConcedido> executa(Set<DadosLivro> livros, // CDD 1 ponto
+			Set<DadosExemplar> exemplares, // CDD 1 ponto
+			Set<DadosUsuario> usuarios, Set<DadosEmprestimo> emprestimos, // CDD 2 pontos
+			Set<DadosDevolucao> devolucoes, LocalDate dataExpiracao) { // CDD 1 ponto
 
-		Set<EmprestimoConcedido> emprestimosConcedidos = new HashSet<>();
+		Set<EmprestimoConcedido> emprestimosConcedidos = new HashSet<>(); // CDD 0 ponto já contou
 		Map<Integer, Integer> countEmprestimosPadrao = new HashMap<>();
 
-		for (DadosEmprestimo emprestimo : emprestimos) {
-			DadosUsuario usuario = DadosHelper.buscaUsuario(emprestimo.idUsuario, usuarios);
-			DadosExemplar exemplar = DadosHelper.buscaExemplar(emprestimo.idLivro, exemplares);
+		// CDD 1 ponto (pelo for)
+		for (DadosEmprestimo emprestimo : emprestimos) { // CDD 0 ponto já contou
+			DadosUsuario usuario = DadosHelper.buscaUsuario(emprestimo.idUsuario, usuarios); // CDD 0 ponto já contou
+			DadosExemplar exemplar = DadosHelper.buscaExemplar(emprestimo.idLivro, exemplares); // CDD 0 ponto já contou
 			LocalDate dataDevolucaoEstimada = LocalDate.now().plusDays(emprestimo.tempo);
+			// CDD 1 ponto
 			if (livroEmprestavelEDevolvidoAntesDaDataConsiderada(dataExpiracao, usuario, exemplar, dataDevolucaoEstimada, countEmprestimosPadrao)) {
 				registrarEmprestimo(emprestimosConcedidos, usuario, exemplar, dataDevolucaoEstimada, countEmprestimosPadrao);
 			}
@@ -55,6 +59,7 @@ public class Solucao {
 	private static void registrarEmprestimo(Set<EmprestimoConcedido> emprestimosConcedidos, DadosUsuario usuario, DadosExemplar exemplar, LocalDate dataDevolucaoEstimada, Map<Integer, Integer> countEmprestimosPadrao) {
 		EmprestimoConcedido emprestimoConcedido = new EmprestimoConcedido(usuario.idUsuario, exemplar.idExemplar, dataDevolucaoEstimada);
 		emprestimosConcedidos.add(emprestimoConcedido);
+		// CDD 1 ponto
 		if (usuario.padrao == TipoUsuario.PADRAO) {
 			countEmprestimosPadrao.putIfAbsent(usuario.idUsuario, 0);
 			countEmprestimosPadrao.put(usuario.idUsuario, countEmprestimosPadrao.get(usuario.idUsuario) + 1);
@@ -62,13 +67,16 @@ public class Solucao {
 	}
 
 	private static boolean livroEmprestavelEDevolvidoAntesDaDataConsiderada(LocalDate dataExpiracao, DadosUsuario usuario, DadosExemplar exemplar, LocalDate dataDevolucao, Map<Integer, Integer> countEmprestimosPadrao) {
+		// CDD 1 ponto
 		if (usuario.padrao == TipoUsuario.PADRAO) {
 			return ValidadorUsuario.validarEmprestimoDeUsuarioPadrao(dataExpiracao, usuario, exemplar, dataDevolucao, countEmprestimosPadrao);
+			// CDD 1 ponto
 		} else { //Pesquisador
 			return ValidadorUsuario.validarEmprestimoDePesquisador(dataExpiracao, dataDevolucao);
 		}
 	}
 
-
+// Atingiu 10 pontos
+// 10 > 7 => Pela métrica, devemos fatiar essa classe
 
 }

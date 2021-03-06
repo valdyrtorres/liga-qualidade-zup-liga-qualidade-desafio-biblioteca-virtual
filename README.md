@@ -6,6 +6,12 @@ Aqui tem o template de código para ser utilizado durante o desafio da liga da q
 
 https://trello.com/b/e9f2nPy8/desafios-liga-qualidade-de-codigo
 
+TODO:
+FAZER A DEVOLUÇÃO
+Pela métrica recomenda-se fatiar as seguintes classes:
+Solucao.java (10 pontos)
+EmprestimoConcedido (11 pontos)
+
 Sobre o domínio
 Vamos implementar um fluxo de empréstimos e devoluções em cima de uma biblioteca virtual.
 

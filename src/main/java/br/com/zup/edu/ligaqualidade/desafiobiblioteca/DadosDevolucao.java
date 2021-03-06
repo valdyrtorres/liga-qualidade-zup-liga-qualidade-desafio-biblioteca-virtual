@@ -14,3 +14,5 @@ public class DadosDevolucao {
 	}
 
 }
+
+// Classe OK - CDD - 0 < 7
